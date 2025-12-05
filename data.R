@@ -3,7 +3,7 @@ library(tidyverse)
 mcdreo_df <- read.csv("/Users/charlycastillo/Downloads/mcdreo.csv")
 
 #` Filter and augment MCDREO data
-#' @description Filter and augument MCDREO data for interest variables
+#' @description Filters and augments MCDREO data for interest variables
 #' @param mcdreo_df data frame
 #' @return data frame with four columns
 filter_data <- function(mcdreo_df) {
