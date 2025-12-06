@@ -23,7 +23,8 @@ filter_data <- function(mcdreo_df) {
     filter(COUNTRY %in% oil_regions, 
            INDICATOR == gdp_indicator, 
            FREQUENCY == "Annual") %>% # Source: Stack Overflow
-    pivot_longer(cols = year_cols, names_to = "year", values_to = "gdp_growth") %>%
+    pivot_longer(cols = year_cols, names_to = "year", 
+                 values_to = "gdp_growth") %>%
     mutate(year = year, gdp_growth = gdp_growth, region = COUNTRY,
            period = if_else(year < 2020, "pre2020", "post2020")) %>%
     select(region, year, period, gdp_growth) %>%
