@@ -1,6 +1,7 @@
 source("data.R")
 library(tidyverse)
 
+
 #` Simulate GDP growth
 #' @description Simulates GDP growth using linear, ARIMA models
 #' @param mcdreo_df data frame
@@ -76,3 +77,56 @@ simulate_growth <- function(mcdreo_df) {
 
   sim_summary
 }
+
+
+#` Simulate risk
+#' @description Simulates risk, average growth by region
+#' @param mcdreo_df data frame
+#' @return data frame with three columns
+simulate_risk <- function(mcdreo_df) {
+  # Copy from previous function
+  start_year <- 2020
+  end_year <- 2030
+  sims <- 1000
+  
+  pre_data <- mcdreo_df[mcdreo_df$year < start_year, ]
+  
+  region_list <- unique(pre_data$region)
+  span <- start_year:end_year
+  n_years <- length(span)
+  
+  set.seed(123)
+  
+  risk_results <- data.frame(region = character(), prob_neg = numeric(),
+                             avg_growth = numeric())
+  
+  for (i in region_list) {
+    region_data <- pre_data[pre_data$region == i, ]
+    
+    mean2 <- mean(region_data$gdp_growth)
+    sd2 <- sd(region_data$gdp_growth)
+    
+    neg_count <- 0
+    sum_means <- 0
+    
+    for (s in 1:sims) {
+      sim_vals <- rnorm(n_years, mean = mean2, sd = sd2)
+      
+      if (any(sim_vals < 0)) {
+        neg_count <- neg_count + 1
+      }
+      
+      sum_means <- sum_means + mean(sim_vals)
+    }
+    
+    prob_neg <- neg_count / sims
+    avg_growth <- sum_means / sims
+    
+    new_row <- data.frame(region = i, prob_neg, avg_growth = avg_growth) 
+    
+    risk_results <- rbind(risk_results, new_row)
+  } 
+  
+  risk_results
+}
+
