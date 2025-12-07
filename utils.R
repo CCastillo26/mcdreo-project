@@ -16,10 +16,11 @@ run_analysis <- function() {
   
   # Run simulation.R
   sim_df <- simulate_growth(mcdreo_df)
+  sim_risk <- simulate_risk(mcdreo_df)
   
   # Run plot.R
   fig <- plot_growth(mcdreo_df, sim_df)
   
   list(data = mcdreo_df, stats = stats_table, tests = test_table, 
-       model = growth_lm, sim = sim_df, plot = fig)
+       model = growth_lm, sim = sim_df, sim_risk = sim_risk, plot = fig)
 }
