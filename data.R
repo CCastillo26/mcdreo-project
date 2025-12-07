@@ -3,6 +3,7 @@ library(tidyverse)
 mcdreo_df <- read.csv("/Users/charlycastillo/Downloads/mcdreo.csv", 
                       check.names = FALSE) # Fix year column names
 
+
 #` Filter and augment MCDREO data
 #' @description Filters and augments MCDREO data for interest variables
 #' @param mcdreo_df data frame
