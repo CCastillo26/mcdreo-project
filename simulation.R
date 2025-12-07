@@ -53,8 +53,27 @@ simulate_growth <- function(mcdreo_df) {
   
   for (i in region_list) {
     region_data <- pre_data[pre_data$region == i, ]
+    
+    min_year <- min(region_data$year)
+    growth_ts <- ts(region_data$gdp_growth, start = min_year, frequency = 1)
+    
+    fit <- arima(growth_ts, order = c(1, 0, 0))
+    
+    forecast <- predict(fit, n.ahead = n_years) # Source: RDocumentation
+    
+    mean <- as.numeric(forecast$pred)
+    se <- as.numeric(forecast$se)
+    
+    # Calculate 95% forecast interval
+    lower <- mean - 1.96 * se # Use z-score
+    upper <- mean + 1.96 * se
+    
+    new_row <- data.frame(region = i, year = span, mean = mean, lower = lower,
+                          upper = upper, model = "arima")
+    
+    arima_summary <- rbind(arima_sumamry, new_row)
   }
-}
+  sim_summary <- rbind(linear_summmary, arima_summary)
 
-# simulate_growth
-# plot_growth
+  sim_summary
+}
