@@ -1,8 +1,6 @@
 source("data.R")
 library(tidyverse)
 
-mcdreo_df <- filter_data(mcdreo_df)
-
 #` Simulate GDP growth
 #' @description Simulates GDP growth using linear, ARIMA models
 #' @param mcdreo_df data frame
@@ -10,7 +8,7 @@ mcdreo_df <- filter_data(mcdreo_df)
 simulate_growth <- function(mcdreo_df) {
   start_year <- 2020
   end_year <- 2030
-  sims <- 10000
+  sims <- 1000
   
   pre_data <- mcdreo_df[mcdreo_df$year < start_year, ]
   
