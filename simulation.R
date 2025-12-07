@@ -10,11 +10,11 @@ mcdreo_df <- filter_data(mcdreo_df)
 simulate_growth <- function(mcdreo_df) {
   start_year <- 2020
   end_year <- 2030
-  sims <- 1000
+  sims <- 10000
   
   pre_data <- mcdreo_df[mcdreo_df$year < start_year, ]
   
-  region_list <- unique(mcdreo_df$region)
+  region_list <- unique(pre_data$region)
   span <- start_year:end_year
   n_years <- length(span)
   
@@ -25,13 +25,13 @@ simulate_growth <- function(mcdreo_df) {
                            sim = integer(), growth = numeric())
   
   for (i in region_list) {
-    region_data <- mcdreo_df[mcdreo_df$region == i, ]
+    region_data <- pre_data[pre_data$region == i, ]
     
-    mean <- mean(region_data$gdp_growth)
-    sd <- sd(region_data$gdp_growth)
+    mean2 <- mean(region_data$gdp_growth)
+    sd2 <- sd(region_data$gdp_growth)
     
     for (s in 1: sims) {
-      sim_vals <- rnorm(n_years, mean = mean, sd = sd)
+      sim_vals <- rnorm(n_years, mean = mean2, sd = sd2)
       
       new_row <- data.frame(region = i, year = span, sim = s, 
                             growth = sim_vals)
@@ -61,19 +61,20 @@ simulate_growth <- function(mcdreo_df) {
     
     forecast <- predict(fit, n.ahead = n_years) # Source: RDocumentation
     
-    mean <- as.numeric(forecast$pred)
+    mean3 <- as.numeric(forecast$pred)
     se <- as.numeric(forecast$se)
     
     # Calculate 95% forecast interval
-    lower <- mean - 1.96 * se # Use z-score
-    upper <- mean + 1.96 * se
+    lower <- mean3 - 1.96 * se # Use z-score
+    upper <- mean3 + 1.96 * se
     
-    new_row <- data.frame(region = i, year = span, mean = mean, lower = lower,
+    new_row <- data.frame(region = i, year = span, mean = mean3, lower = lower,
                           upper = upper, model = "arima")
     
-    arima_summary <- rbind(arima_sumamry, new_row)
+    arima_summary <- rbind(arima_summary, new_row)
   }
-  sim_summary <- rbind(linear_summmary, arima_summary)
+  
+  sim_summary <- rbind(linear_summary, arima_summary)
 
   sim_summary
 }
