@@ -43,10 +43,10 @@ simulate_growth <- function(mcdreo_df) {
   linear_summary <- linear_sim %>%
     group_by(region, year) %>%
     summarize(mean = mean(growth), lower = quantile(growth, 0.025),
-              upper = quantile(growth, 0.975)) %>% # 95% interval
+              upper = quantile(growth, 0.975)) %>% # Use 95% interval
     mutate(model = "linear")
   
-  # Use ARIMA model
+  # Use ARIMA(1, 0, 0) model - Source: Duke
   arima_summary <- data.frame(region = character(), year = integer(),
                               mean = numeric(), lower = numeric(), 
                               upper = numeric(), model = character())
