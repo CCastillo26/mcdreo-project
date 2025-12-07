@@ -3,6 +3,7 @@ library(tidyverse)
 
 mcdreo_df <- filter_data(mcdreo_df)
 
+
 #` Summarize GDP growth
 #' @description Summarizes GDP growth with statistics by region, period
 #' @param mcdreo_df data frame
@@ -12,6 +13,7 @@ calculate_stats <- function(mcdreo_df) {
     group_by(region, period) %>%
     summarize(mean = mean(gdp_growth), sd = sd(gdp_growth), n = n())
 }
+
 
 #` Run t-tests
 #' @description Runs t-tests comparing pre, post-2020 growth
@@ -43,6 +45,7 @@ run_growth <- function(mcdreo_df) {
   
   test_results
 }
+
 
 #` Fit growth model
 #' @description Fits growth model on region, period, interaction
