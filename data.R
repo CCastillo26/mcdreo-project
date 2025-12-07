@@ -25,8 +25,8 @@ filter_data <- function(mcdreo_df) {
            FREQUENCY == "Annual") %>% # Source: Stack Overflow
     pivot_longer(cols = year_cols, names_to = "year", 
                  values_to = "gdp_growth") %>%
-    mutate(year = year, gdp_growth = gdp_growth, region = COUNTRY,
-           period = if_else(year < 2020, "pre2020", "post2020")) %>%
+    mutate(year = as.numeric(year), gdp_growth = as.numeric(gdp_growth), 
+           region = COUNTRY, period = if_else(year < 2020, "pre2020", "post2020")) %>%
     select(region, year, period, gdp_growth) %>%
     arrange(region, year)
 }
