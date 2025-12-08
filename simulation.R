@@ -84,7 +84,7 @@ simulate_growth <- function(mcdreo_df) {
 #' @param mcdreo_df data frame
 #' @return data frame with three columns
 simulate_risk <- function(mcdreo_df) {
-  # Copy from previous function
+  # Copy structure of previous function
   start_year <- 2020
   end_year <- 2030
   sims <- 1000
