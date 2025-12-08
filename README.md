@@ -1,2 +1,2 @@
-# 1560-project
+# Assessing Growth and Downside Risk in Oil-Related Middle East and Central Asian Economies
 Final project for PHP 1560
